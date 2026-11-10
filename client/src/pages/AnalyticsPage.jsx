@@ -185,8 +185,8 @@ export const AnalyticsPage = () => {
         log.status === "OK"
           ? "PASSED"
           : log.status === "REJECT"
-          ? "REJECTED (SCRAP)"
-          : "REWORK (ALTERATION)";
+            ? "REJECTED (SCRAP)"
+            : "REWORK (ALTERATION)";
 
       return [
         `"${new Date(log.timestamp).toLocaleString()}"`,
@@ -214,7 +214,7 @@ export const AnalyticsPage = () => {
 
   return (
     <div className="space-y-6">
-      
+
       {/* Top Header & Export Action */}
       <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
         <div>
@@ -222,9 +222,6 @@ export const AnalyticsPage = () => {
             <PieChart className="w-7 h-7 text-blue-600 dark:text-blue-500" />
             <span>Daily & Periodic QC Analytics</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            Filter by date range, production line, garment style, rework defects, and permanent rejections
-          </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
@@ -233,22 +230,20 @@ export const AnalyticsPage = () => {
             <button
               type="button"
               onClick={() => setActiveTab("charts")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                activeTab === "charts"
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${activeTab === "charts"
                   ? "bg-white dark:bg-blue-600 text-blue-600 dark:text-white shadow-sm"
                   : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-              }`}
+                }`}
             >
               Charts & Ops
             </button>
             <button
               type="button"
               onClick={() => setActiveTab("heatmap")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center space-x-1.5 ${
-                activeTab === "heatmap"
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center space-x-1.5 ${activeTab === "heatmap"
                   ? "bg-white dark:bg-blue-600 text-blue-600 dark:text-white shadow-sm"
                   : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-              }`}
+                }`}
             >
               <Flame className="w-3.5 h-3.5 text-orange-500" />
               <span>Garment Heatmap</span>
@@ -256,11 +251,10 @@ export const AnalyticsPage = () => {
             <button
               type="button"
               onClick={() => setActiveTab("logs")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                activeTab === "logs"
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${activeTab === "logs"
                   ? "bg-white dark:bg-blue-600 text-blue-600 dark:text-white shadow-sm"
                   : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-              }`}
+                }`}
             >
               Log Records ({logs.length})
             </button>
@@ -280,10 +274,10 @@ export const AnalyticsPage = () => {
 
       {/* FILTER PANEL: From Date, To Date, Presets, Line, Style, and Rejection/Status */}
       <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4 transition-colors">
-        
+
         {/* Row 1: From Date & To Date Range + Quick Presets */}
         <div className="flex flex-wrap items-center justify-between gap-4 pb-3 border-b border-slate-100 dark:border-slate-800">
-          
+
           {/* Explicit From Date & To Date Inputs */}
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <div className="flex items-center space-x-1.5 bg-slate-50 dark:bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700">
@@ -320,44 +314,40 @@ export const AnalyticsPage = () => {
             <button
               type="button"
               onClick={() => applyDatePreset("today")}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${
-                datePreset === "today"
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${datePreset === "today"
                   ? "bg-blue-600 text-white shadow-sm"
                   : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
-              }`}
+                }`}
             >
               Today
             </button>
             <button
               type="button"
               onClick={() => applyDatePreset("yesterday")}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${
-                datePreset === "yesterday"
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${datePreset === "yesterday"
                   ? "bg-blue-600 text-white shadow-sm"
                   : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
-              }`}
+                }`}
             >
               Yesterday
             </button>
             <button
               type="button"
               onClick={() => applyDatePreset("week")}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${
-                datePreset === "week"
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${datePreset === "week"
                   ? "bg-blue-600 text-white shadow-sm"
                   : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
-              }`}
+                }`}
             >
               Last 7 Days
             </button>
             <button
               type="button"
               onClick={() => applyDatePreset("month")}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${
-                datePreset === "month"
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${datePreset === "month"
                   ? "bg-blue-600 text-white shadow-sm"
                   : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
-              }`}
+                }`}
             >
               This Month
             </button>
@@ -366,7 +356,7 @@ export const AnalyticsPage = () => {
 
         {/* Row 2: Line, Style & Rejection / Status Filters */}
         <div className="flex flex-wrap items-center justify-between gap-4">
-          
+
           <div className="flex flex-wrap items-center gap-3">
             {/* Production Line Selector */}
             <div className="flex items-center space-x-1.5">
@@ -411,22 +401,20 @@ export const AnalyticsPage = () => {
             <button
               type="button"
               onClick={() => setSelectedStatus("All")}
-              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
-                selectedStatus === "All"
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${selectedStatus === "All"
                   ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm"
                   : "text-slate-500 hover:text-slate-800 dark:hover:text-white"
-              }`}
+                }`}
             >
               All
             </button>
             <button
               type="button"
               onClick={() => setSelectedStatus("OK")}
-              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center space-x-1 ${
-                selectedStatus === "OK"
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center space-x-1 ${selectedStatus === "OK"
                   ? "bg-emerald-600 text-white shadow-sm"
                   : "text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40"
-              }`}
+                }`}
             >
               <CheckCircle2 className="w-3 h-3" />
               <span>Passed</span>
@@ -434,11 +422,10 @@ export const AnalyticsPage = () => {
             <button
               type="button"
               onClick={() => setSelectedStatus("DEFECT")}
-              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center space-x-1 ${
-                selectedStatus === "DEFECT"
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center space-x-1 ${selectedStatus === "DEFECT"
                   ? "bg-amber-600 text-white shadow-sm"
                   : "text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-950/40"
-              }`}
+                }`}
             >
               <AlertTriangle className="w-3 h-3" />
               <span>Rework</span>
@@ -446,11 +433,10 @@ export const AnalyticsPage = () => {
             <button
               type="button"
               onClick={() => setSelectedStatus("REJECT")}
-              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center space-x-1 ${
-                selectedStatus === "REJECT"
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center space-x-1 ${selectedStatus === "REJECT"
                   ? "bg-red-600 text-white shadow-sm"
                   : "text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40"
-              }`}
+                }`}
             >
               <Ban className="w-3 h-3" />
               <span>Rejection (Scrap)</span>
@@ -685,11 +671,10 @@ export const AnalyticsPage = () => {
                               {log.defects.map((d, i) => (
                                 <span
                                   key={i}
-                                  className={`px-2 py-0.5 rounded text-[11px] font-medium ${
-                                    isRejected
+                                  className={`px-2 py-0.5 rounded text-[11px] font-medium ${isRejected
                                       ? "bg-red-50 dark:bg-red-950/50 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-900/40"
                                       : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
-                                  }`}
+                                    }`}
                                 >
                                   {d.defectName} ({d.operation || "General"})
                                 </span>

@@ -236,7 +236,7 @@ export const TechPackPage = () => {
 
   return (
     <div className="space-y-6">
-      
+
       {/* Top Header */}
       <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
         <div>
@@ -244,9 +244,6 @@ export const TechPackPage = () => {
             <Shirt className="w-7 h-7 text-blue-600 dark:text-blue-500" />
             <span>Buyer Tech Packs</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            Garment specification sketches, buyer details, and sewing operations. Uploaded image is used directly in the defect heatmap.
-          </p>
         </div>
 
         <button
@@ -284,7 +281,7 @@ export const TechPackPage = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          
+
           {/* Left Column: Styles List */}
           <div className="lg:col-span-4 space-y-3">
             <div className="flex items-center justify-between">
@@ -308,11 +305,10 @@ export const TechPackPage = () => {
                   <div
                     key={tp._id || tp.styleNumber}
                     onClick={() => setSelectedStyle(tp)}
-                    className={`p-4 rounded-2xl border cursor-pointer transition-all ${
-                      isSelected
+                    className={`p-4 rounded-2xl border cursor-pointer transition-all ${isSelected
                         ? "bg-blue-50/80 dark:bg-blue-600/20 border-blue-500 shadow-md shadow-blue-500/10"
                         : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700"
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center justify-between">
                       <span className="font-extrabold text-slate-900 dark:text-white text-sm">
@@ -339,7 +335,7 @@ export const TechPackPage = () => {
           <div className="lg:col-span-8 flex flex-col space-y-6">
             {selectedStyle && (
               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 sm:p-6 shadow-sm space-y-6 transition-colors">
-                
+
                 {/* Style Header & Action buttons */}
                 <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
                   <div>
@@ -364,11 +360,10 @@ export const TechPackPage = () => {
                           key={vName}
                           type="button"
                           onClick={() => setActiveView(vName)}
-                          className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
-                            activeView === vName
+                          className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${activeView === vName
                               ? "bg-white dark:bg-blue-600 text-blue-600 dark:text-white shadow-sm"
                               : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                          }`}
+                            }`}
                         >
                           {vName} View
                         </button>
@@ -574,22 +569,20 @@ export const TechPackPage = () => {
                     <button
                       type="button"
                       onClick={() => setImageUploadMethod("file")}
-                      className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
-                        imageUploadMethod === "file"
+                      className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${imageUploadMethod === "file"
                           ? "bg-blue-600 text-white"
                           : "text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800"
-                      }`}
+                        }`}
                     >
                       Upload File
                     </button>
                     <button
                       type="button"
                       onClick={() => setImageUploadMethod("preset")}
-                      className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
-                        imageUploadMethod === "preset"
+                      className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${imageUploadMethod === "preset"
                           ? "bg-blue-600 text-white"
                           : "text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800"
-                      }`}
+                        }`}
                     >
                       Preset Outline
                     </button>

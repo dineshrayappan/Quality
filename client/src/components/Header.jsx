@@ -43,7 +43,7 @@ export const Header = ({ onOpenMobile }) => {
 
   return (
     <header className="h-16 sticky top-0 z-30 flex items-center justify-between px-4 sm:px-6 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
-      
+
       {/* Left: Mobile Toggle & Page Info */}
       <div className="flex items-center space-x-3">
         <button
@@ -72,12 +72,8 @@ export const Header = ({ onOpenMobile }) => {
 
       {/* Right: Quick Controls & Theme Toggle */}
       <div className="flex items-center space-x-2 sm:space-x-3">
-        
+
         {/* Quick Shift Badge */}
-        <div className="hidden md:flex items-center space-x-1.5 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold border border-slate-200 dark:border-slate-700">
-          <Clock className="w-3.5 h-3.5 text-blue-500" />
-          <span>General Shift</span>
-        </div>
 
         {/* Theme Toggle Button */}
         <button

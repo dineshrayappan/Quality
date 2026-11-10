@@ -102,13 +102,11 @@ export const Sidebar = ({ isCollapsed, onToggleCollapse, isMobileOpen, onCloseMo
                 to={link.to}
                 onClick={onCloseMobile}
                 title={isCollapsed ? link.label : undefined}
-                className={`flex items-center rounded-xl text-sm font-semibold transition-all group ${
-                  isCollapsed ? "justify-center p-3" : "px-3.5 py-2.5 space-x-3"
-                } ${
-                  isActive
+                className={`flex items-center rounded-xl text-sm font-semibold transition-all group ${isCollapsed ? "justify-center p-3" : "px-3.5 py-2.5 space-x-3"
+                  } ${isActive
                     ? "bg-blue-600 text-white shadow-md shadow-blue-600/25"
                     : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white"
-                }`}
+                  }`}
               >
                 <Icon className={`w-5 h-5 flex-shrink-0 ${isActive ? "text-white" : "text-slate-500 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"}`} />
                 {!isCollapsed && (
@@ -116,11 +114,10 @@ export const Sidebar = ({ isCollapsed, onToggleCollapse, isMobileOpen, onCloseMo
                     <span className="truncate">{link.label}</span>
                     {link.badge && (
                       <span
-                        className={`text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ${
-                          isActive
+                        className={`text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ${isActive
                             ? "bg-white/20 text-white"
                             : "bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400"
-                        }`}
+                          }`}
                       >
                         {link.badge}
                       </span>
@@ -134,15 +131,14 @@ export const Sidebar = ({ isCollapsed, onToggleCollapse, isMobileOpen, onCloseMo
 
         {/* Bottom Utility Area: Theme Toggle & Language */}
         <div className="p-3 border-t border-slate-200 dark:border-slate-800 space-y-2">
-          
+
           {/* Light / Dark Mode Toggle Button */}
           <button
             type="button"
             onClick={toggleTheme}
             title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
-            className={`w-full flex items-center rounded-xl transition-all border ${
-              isCollapsed ? "justify-center p-2.5" : "px-3 py-2 space-x-2.5"
-            } bg-slate-100 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-blue-400`}
+            className={`w-full flex items-center rounded-xl transition-all border ${isCollapsed ? "justify-center p-2.5" : "px-3 py-2 space-x-2.5"
+              } bg-slate-100 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-blue-400`}
           >
             {isDark ? (
               <Sun className="w-4 h-4 text-amber-400 flex-shrink-0" />
@@ -162,9 +158,8 @@ export const Sidebar = ({ isCollapsed, onToggleCollapse, isMobileOpen, onCloseMo
               type="button"
               onClick={() => setLangMenuOpen(!langMenuOpen)}
               title="Change Language"
-              className={`w-full flex items-center rounded-xl border transition-all ${
-                isCollapsed ? "justify-center p-2.5" : "px-3 py-2 space-x-2.5"
-              } bg-slate-100 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-blue-400`}
+              className={`w-full flex items-center rounded-xl border transition-all ${isCollapsed ? "justify-center p-2.5" : "px-3 py-2 space-x-2.5"
+                } bg-slate-100 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-blue-400`}
             >
               <Globe className="w-4 h-4 text-blue-500 flex-shrink-0" />
               {!isCollapsed && (
@@ -190,11 +185,10 @@ export const Sidebar = ({ isCollapsed, onToggleCollapse, isMobileOpen, onCloseMo
                   <button
                     key={l.code}
                     onClick={() => setLanguage(l.code)}
-                    className={`w-full flex items-center justify-between px-3 py-2 text-xs text-left transition-colors ${
-                      language === l.code
+                    className={`w-full flex items-center justify-between px-3 py-2 text-xs text-left transition-colors ${language === l.code
                         ? "bg-blue-50 dark:bg-blue-600/20 text-blue-600 dark:text-blue-400 font-bold"
                         : "text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center space-x-2">
                       <span>{l.flag}</span>
@@ -207,16 +201,6 @@ export const Sidebar = ({ isCollapsed, onToggleCollapse, isMobileOpen, onCloseMo
             )}
           </div>
 
-          {/* Factory Server Status indicator */}
-          {!isCollapsed && (
-            <div className="px-2 pt-1 flex items-center justify-between text-[11px] text-slate-400">
-              <span className="flex items-center space-x-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>Server Connected</span>
-              </span>
-              <span className="font-mono text-[10px]">Direct DB</span>
-            </div>
-          )}
         </div>
       </aside>
     </>
