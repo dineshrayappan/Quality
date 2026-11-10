@@ -128,7 +128,16 @@ export const GarmentHeatmapOverlay = ({
               {/* Tooltip on hover */}
               <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:flex flex-col items-center z-30">
                 <div className="bg-slate-900 text-white text-[11px] font-medium px-2.5 py-1.5 rounded-lg shadow-xl border border-slate-700 whitespace-nowrap">
-                  <div className="font-bold text-red-400">{pt.defectName}</div>
+                  <div className="flex items-center space-x-1.5">
+                    <span className="font-bold text-red-400">{pt.defectName}</span>
+                    {pt.status && (
+                      <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded uppercase ${
+                        pt.status === "REJECT" ? "bg-red-600 text-white" : "bg-amber-600 text-white"
+                      }`}>
+                        {pt.status === "REJECT" ? "Scrap" : "Rework"}
+                      </span>
+                    )}
+                  </div>
                   <div className="text-[10px] text-slate-300">Op: {pt.operation}</div>
                 </div>
                 <div className="w-1.5 h-1.5 bg-slate-900 rotate-45 -mt-1 border-r border-b border-slate-700"></div>

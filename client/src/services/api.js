@@ -100,10 +100,23 @@ export const api = {
     });
     return res.json();
   },
-  getRecentLogs: async (lineName = "", styleNumber = "") => {
-    const params = new URLSearchParams();
-    if (lineName) params.append("lineName", lineName);
-    if (styleNumber) params.append("styleNumber", styleNumber);
+  logReject: async (data) => {
+    const res = await fetch(`${BASE_URL}/qc/reject`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    return res.json();
+  },
+  getRecentLogs: async (filters = {}) => {
+    let params;
+    if (typeof filters === "string") {
+      params = new URLSearchParams();
+      if (arguments[0]) params.append("lineName", arguments[0]);
+      if (arguments[1]) params.append("styleNumber", arguments[1]);
+    } else {
+      params = new URLSearchParams(filters);
+    }
     const res = await fetch(`${BASE_URL}/qc/recent?${params.toString()}`);
     return res.json();
   },

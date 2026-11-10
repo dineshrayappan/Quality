@@ -37,7 +37,7 @@ export const logPassPiece = async (req, res) => {
 // Log a defect / rework piece with pinpoint coordinates and defect types
 export const logDefectPiece = async (req, res) => {
   try {
-    const { lineName, styleNumber, buyer, inspectorName, shift, defects } = req.body;
+    const { lineName, styleNumber, buyer, inspectorName, shift, defects, status } = req.body;
 
     if (!lineName || !styleNumber) {
       return res.status(400).json({ error: "lineName and styleNumber are required" });
@@ -59,12 +59,14 @@ export const logDefectPiece = async (req, res) => {
       notes: d.notes || "",
     }));
 
+    const finalStatus = (status === "REJECT" || status === "REJECTED") ? "REJECT" : "DEFECT";
+
     const log = new InspectionLog({
       lineName,
       styleNumber,
       buyer: buyer || "",
       inspectorName: inspectorName || "QC Inspector",
-      status: "DEFECT",
+      status: finalStatus,
       defects: formattedDefects,
       shift: shift || "General",
       timestamp: new Date(),
@@ -74,8 +76,9 @@ export const logDefectPiece = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: "Defect logged and piece sent to rework",
+      message: finalStatus === "REJECT" ? "Piece marked as Permanent Rejection (Scrap)" : "Defect logged and piece sent to rework",
       logId: log._id,
+      status: finalStatus,
       defectsCount: formattedDefects.length,
       timestamp: log.timestamp,
     });
@@ -85,13 +88,38 @@ export const logDefectPiece = async (req, res) => {
   }
 };
 
-// Get recent inspection logs
+// Dedicated log for Rejected / Scrap piece
+export const logRejectPiece = async (req, res) => {
+  req.body.status = "REJECT";
+  return logDefectPiece(req, res);
+};
+
+// Get recent inspection logs with date range and status filters
 export const getRecentLogs = async (req, res) => {
   try {
-    const { lineName, styleNumber, limit = 30 } = req.query;
+    const { lineName, styleNumber, status, fromDate, toDate, startDate, endDate, limit = 50 } = req.query;
     const filter = {};
-    if (lineName) filter.lineName = lineName;
-    if (styleNumber) filter.styleNumber = styleNumber;
+
+    if (lineName && lineName !== "All") filter.lineName = lineName;
+    if (styleNumber && styleNumber !== "All") filter.styleNumber = styleNumber;
+    if (status && status !== "All") filter.status = status;
+
+    const from = fromDate || startDate;
+    const to = toDate || endDate;
+
+    if (from || to) {
+      filter.timestamp = {};
+      if (from) {
+        const s = new Date(from);
+        s.setHours(0, 0, 0, 0);
+        filter.timestamp.$gte = s;
+      }
+      if (to) {
+        const e = new Date(to);
+        e.setHours(23, 59, 59, 999);
+        filter.timestamp.$lte = e;
+      }
+    }
 
     const logs = await InspectionLog.find(filter)
       .sort({ timestamp: -1 })
@@ -116,4 +144,3 @@ export const deleteLog = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-

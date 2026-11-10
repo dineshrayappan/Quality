@@ -69,7 +69,8 @@ const inspectionLogSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["OK", "DEFECT"],
+      enum: ["OK", "DEFECT", "REJECT"],
+      default: "OK",
       required: true,
       index: true,
     },

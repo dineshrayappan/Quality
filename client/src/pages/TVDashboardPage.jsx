@@ -17,6 +17,8 @@ import {
   Layers,
   Shirt,
   Plus,
+  Ban,
+  Wrench,
 } from "lucide-react";
 
 export const TVDashboardPage = () => {
@@ -34,8 +36,10 @@ export const TVDashboardPage = () => {
     totalInspected: 0,
     goodPieces: 0,
     reworkPieces: 0,
+    rejectedPieces: 0,
     passRate: 100,
     reworkRate: 0,
+    rejectionRate: 0,
   });
 
   const [pieData, setPieData] = useState([]);
@@ -196,50 +200,64 @@ export const TVDashboardPage = () => {
         </div>
       </header>
 
-      {/* Hero Big Metrics Counters */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+      {/* Hero Big Metrics Counters (Total, Passed, Rework, Rejection, Defect Spots) */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4">
         {/* Total Inspected */}
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm transition-colors">
           <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">
-            <span>{t("tvTotalChecked") || "Total Inspected"}</span>
+            <span>{t("tvTotalChecked") || "Total Checked"}</span>
             <Layers className="w-4 h-4 text-blue-500" />
           </div>
           <div className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-1">
             {summary.totalInspected || 0}
           </div>
-          <span className="text-[11px] text-slate-400">Shop-floor pieces</span>
+          <span className="text-[11px] text-slate-400">Total garments</span>
         </div>
 
         {/* Good Pieces Passed */}
         <div className="bg-white dark:bg-slate-900 border border-emerald-200 dark:border-emerald-900/40 rounded-2xl p-4 shadow-sm transition-colors">
           <div className="flex items-center justify-between text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider">
-            <span>{t("tvPassedPieces") || "Good Pieces"}</span>
+            <span>Passed (OK)</span>
             <CheckCircle2 className="w-4 h-4 text-emerald-500" />
           </div>
           <div className="text-3xl sm:text-4xl font-black text-emerald-600 dark:text-emerald-400 mt-1">
             {summary.goodPieces || 0}
           </div>
-          <span className="text-[11px] text-emerald-600/80 dark:text-emerald-400/70">
-            {summary.passRate || 0}% First-Time-Through
+          <span className="text-[11px] text-emerald-600/80 dark:text-emerald-400/70 font-semibold">
+            {summary.passRate || 0}% First-Time-Right
           </span>
         </div>
 
         {/* Defects Rework */}
-        <div className="bg-white dark:bg-slate-900 border border-red-200 dark:border-red-900/40 rounded-2xl p-4 shadow-sm transition-colors">
-          <div className="flex items-center justify-between text-red-600 dark:text-red-400 text-xs font-bold uppercase tracking-wider">
-            <span>{t("tvDefectPieces") || "Rework Pieces"}</span>
-            <AlertTriangle className="w-4 h-4 text-red-500" />
+        <div className="bg-white dark:bg-slate-900 border border-amber-200 dark:border-amber-900/40 rounded-2xl p-4 shadow-sm transition-colors">
+          <div className="flex items-center justify-between text-amber-600 dark:text-amber-400 text-xs font-bold uppercase tracking-wider">
+            <span>Rework (Alter)</span>
+            <Wrench className="w-4 h-4 text-amber-500" />
           </div>
-          <div className="text-3xl sm:text-4xl font-black text-red-600 dark:text-red-400 mt-1">
+          <div className="text-3xl sm:text-4xl font-black text-amber-600 dark:text-amber-400 mt-1">
             {summary.reworkPieces || 0}
           </div>
-          <span className="text-[11px] text-red-600/80 dark:text-red-400/70">
-            {summary.reworkRate || 0}% Defect Rate
+          <span className="text-[11px] text-amber-600/80 dark:text-amber-400/70 font-semibold">
+            {summary.reworkRate || 0}% Rework Rate
+          </span>
+        </div>
+
+        {/* Rejection / Scrap Pieces */}
+        <div className="bg-white dark:bg-slate-900 border border-red-300 dark:border-red-900/50 rounded-2xl p-4 shadow-sm transition-colors bg-red-50/20 dark:bg-red-950/10">
+          <div className="flex items-center justify-between text-red-600 dark:text-red-400 text-xs font-bold uppercase tracking-wider">
+            <span>Rejection (Scrap)</span>
+            <Ban className="w-4 h-4 text-red-500" />
+          </div>
+          <div className="text-3xl sm:text-4xl font-black text-red-600 dark:text-red-400 mt-1">
+            {summary.rejectedPieces || 0}
+          </div>
+          <span className="text-[11px] text-red-600/90 dark:text-red-400/90 font-semibold">
+            {summary.rejectionRate || 0}% Scrap Rate
           </span>
         </div>
 
         {/* Total Defect Hotspots */}
-        <div className="bg-white dark:bg-slate-900 border border-orange-200 dark:border-orange-900/40 rounded-2xl p-4 shadow-sm transition-colors">
+        <div className="bg-white dark:bg-slate-900 border border-orange-200 dark:border-orange-900/40 rounded-2xl p-4 shadow-sm transition-colors col-span-2 md:col-span-1">
           <div className="flex items-center justify-between text-orange-600 dark:text-orange-400 text-xs font-bold uppercase tracking-wider">
             <span>Defect Hotspots</span>
             <Flame className="w-4 h-4 text-orange-500 animate-pulse" />
@@ -247,8 +265,8 @@ export const TVDashboardPage = () => {
           <div className="text-3xl sm:text-4xl font-black text-orange-600 dark:text-orange-400 mt-1">
             {heatmapPoints.length}
           </div>
-          <span className="text-[11px] text-orange-600/80 dark:text-orange-400/70">
-            Pinpoints on garment
+          <span className="text-[11px] text-orange-600/80 dark:text-orange-400/70 font-medium">
+            Tagged defect spots
           </span>
         </div>
       </div>
