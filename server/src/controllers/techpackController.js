@@ -124,7 +124,9 @@ export const uploadTechPackImage = async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ error: "No image file provided" });
     }
-    const imageUrl = `/uploads/${req.file.filename}`;
+    const imageUrl = req.file.buffer
+      ? `data:${req.file.mimetype || "image/png"};base64,${req.file.buffer.toString("base64")}`
+      : `/uploads/${req.file.filename}`;
     res.json({ success: true, imageUrl });
   } catch (error) {
     res.status(500).json({ error: error.message });
