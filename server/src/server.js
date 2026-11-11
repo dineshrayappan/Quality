@@ -1,4 +1,4 @@
-import "dotenv/config";
+import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import os from "os";
@@ -15,6 +15,12 @@ import lineRoutes from "./routes/lineRoutes.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Load root .env first, then server/.env as fallback for local development without overriding platform env vars
+const rootEnvPath = path.resolve(__dirname, "../../.env");
+const serverEnvPath = path.resolve(__dirname, "../.env");
+if (fs.existsSync(rootEnvPath)) dotenv.config({ path: rootEnvPath });
+if (fs.existsSync(serverEnvPath)) dotenv.config({ path: serverEnvPath });
 
 const app = express();
 const isVercel = Boolean(process.env.VERCEL || process.env.VERCEL_ENV);
@@ -34,8 +40,8 @@ app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
-// Serve static assets (garment SVGs, uploaded techpack images)
-app.use("/techpacks", express.static(path.join(__dirname, "../public/techpacks")));
+// Serve static assets (garment SVGs from root public/, uploaded techpack images)
+app.use("/techpacks", express.static(path.join(__dirname, "../../public/techpacks")));
 app.use("/uploads", express.static(uploadsDir));
 
 // Cached database connection for both local runs and serverless cold starts
@@ -99,6 +105,15 @@ app.use("/api/analytics", analyticsRoutes);
 app.use("/api/lines", lineRoutes);
 
 if (!isVercel) {
+  const clientDistDir = path.resolve(__dirname, "../../dist");
+  const clientIndexHtml = path.join(clientDistDir, "index.html");
+  if (fs.existsSync(clientIndexHtml)) {
+    app.use(express.static(clientDistDir));
+    app.get(/^(?!\/api(?:\/|$)).*/, (req, res) => {
+      res.sendFile(clientIndexHtml);
+    });
+  }
+
   connectDB().catch(() => {});
 
   app.listen(PORT, "0.0.0.0", () => {
