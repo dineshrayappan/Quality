@@ -57,9 +57,11 @@ export const translations = {
 
     // TV Dashboard
     tvTitle: "SHOP-FLOOR LIVE QC DASHBOARD",
+    tvTotalChecked: "Total Checked",
     tvGarmentHeatmap: "Garment Defect Heat Map",
     tvTopOperations: "Top Defect Operations (Root Causes)",
     tvDefectPie: "Defect Category Distribution",
+    tvDefectPareto: "Defect Type Breakdown",
     tvHourlyRate: "Hourly Production & Quality Trend",
     tvLastUpdated: "Auto-refreshing every 5s",
     tvFullscreen: "Fullscreen TV Mode",
@@ -86,6 +88,7 @@ export const translations = {
     // Defect Master
     masterTitle: "Defect Type Library",
     masterSub: "Standard & manually added defect issues",
+    searchPlaceholder: "Search defect name or code...",
     addDefect: "Create Defect Type",
     code: "Code",
     status: "Status",
@@ -157,9 +160,11 @@ export const translations = {
 
     // TV Dashboard
     tvTitle: "தொழிற்சாலை நேரடி டிவி திரை (LIVE QC)",
+    tvTotalChecked: "மொத்த ஆய்வு",
     tvGarmentHeatmap: "ஆடை குறைபாடு வெப்ப வரைபடம் (Heat Map)",
     tvTopOperations: "அதிக குறைபாடு உள்ள ஆபரேஷன்கள்",
     tvDefectPie: "குறைபாடு வகைகள் சதவீத வரைபடம்",
+    tvDefectPareto: "குறைபாடு வகை விவரம்",
     tvHourlyRate: "மணிநேர தயாரிப்பு & தர நிலை",
     tvLastUpdated: "ஒவ்வொரு 5 வினாடியும் புதுப்பிக்கப்படுகிறது",
     tvFullscreen: "முழுத்திரை டிவி பயன்முறை",
@@ -257,9 +262,11 @@ export const translations = {
 
     // TV Dashboard
     tvTitle: "शॉप-फ्लोर लाइव टीवी डैशबोर्ड (QC)",
+    tvTotalChecked: "कुल जाँच",
     tvGarmentHeatmap: "कपड़ा दोष हीट मैप (Heat Map)",
     tvTopOperations: "सर्वाधिक दोष वाले सिलाई ऑपरेशन",
     tvDefectPie: "दोष प्रकार का प्रतिशत पाई चार्ट",
+    tvDefectPareto: "दोष प्रकार विवरण",
     tvHourlyRate: "प्रति घंटा उत्पादन और गुणवत्ता",
     tvLastUpdated: "हर 5 सेकंड में स्वतः अपडेट",
     tvFullscreen: "फुलस्क्रीन टीवी मोड",
@@ -357,9 +364,11 @@ export const translations = {
 
     // TV Dashboard
     tvTitle: "ଫ୍ୟାକ୍ଟ୍ରି ଲାଇଭ୍ ଟିଭି ଡ୍ୟାସବୋର୍ଡ (LIVE QC)",
+    tvTotalChecked: "ମୋଟ ଯାଞ୍ଚ",
     tvGarmentHeatmap: "ପୋଷାକ ତ୍ରୁଟି ହିଟ୍ ମ୍ୟାପ୍ (Heat Map)",
     tvTopOperations: "ସର୍ବାଧିକ ତ୍ରୁଟି ଥିବା ଅପରେସନ୍",
     tvDefectPie: "ତ୍ରୁଟି ପ୍ରକାର ପ୍ରତିଶତ ପାଇ ଚାର୍ଟ",
+    tvDefectPareto: "ତ୍ରୁଟି ପ୍ରକାର ବିବରଣୀ",
     tvHourlyRate: "ଘଣ୍ଟା ଅନୁସାରେ ଉତ୍ପାଦନ ଓ ଗୁଣବତ୍ତା",
     tvLastUpdated: "ପ୍ରତି ୫ ସେକେଣ୍ଡରେ ଅପଡେଟ୍ ହେଉଛି",
     tvFullscreen: "ଫୁଲ୍ ସ୍କ୍ରିନ୍ ଟିଭି ମୋଡ୍",

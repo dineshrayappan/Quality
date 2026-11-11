@@ -60,7 +60,7 @@ export const GarmentHeatmapOverlay = ({
 
       {/* Heatmap Canvas Container */}
       <div className="relative flex-1 flex items-center justify-center p-4 bg-slate-100/60 dark:bg-slate-950/70 select-none overflow-hidden">
-        <div className="relative max-w-[460px] w-full aspect-[6/7] rounded-xl border border-slate-300 dark:border-slate-800 bg-white shadow-2xl overflow-hidden flex items-center justify-center">
+        <div className="relative max-w-[400px] w-full aspect-[6/7] rounded-xl border border-slate-300 dark:border-slate-800 bg-white shadow-2xl overflow-hidden flex items-center justify-center">
           
           {/* Base Tech Pack Garment Sketch (THAT specific tech pack image) */}
           {imageUrl ? (

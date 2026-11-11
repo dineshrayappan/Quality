@@ -272,10 +272,10 @@ export const TVDashboardPage = () => {
       </div>
 
       {/* Main Grid: Left Heatmap Overlay (THAT style image) & Right Live Defect Analytics */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 flex-1 min-h-[500px]">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 flex-1 min-h-[500px] items-stretch">
         
         {/* Left 7 Columns: Garment Heatmap (Uses selected tech pack sketch image) */}
-        <div className="lg:col-span-7 flex flex-col min-h-[480px]">
+        <div className="lg:col-span-7 flex flex-col min-w-0 min-h-[480px]">
           <GarmentHeatmapOverlay
             techPack={selectedTechPack}
             points={heatmapPoints}
@@ -285,23 +285,20 @@ export const TVDashboardPage = () => {
         </div>
 
         {/* Right 5 Columns: Defect Breakdown & Pareto Chart */}
-        <div className="lg:col-span-5 flex flex-col space-y-4">
+        <div className="lg:col-span-5 flex flex-col gap-5 min-w-0">
           
           {/* Defect Pareto Distribution Pie Chart */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm transition-colors">
-            <h3 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2 flex items-center justify-between">
-              <span>{t("tvDefectPareto") || "Defect Type Breakdown"}</span>
-              <span className="text-[10px] text-slate-400 font-mono">
-                {totalDefectsCount} defects
-              </span>
-            </h3>
-            <div className="h-[200px]">
-              <DefectPieChart data={pieData} />
-            </div>
-          </div>
+          <DefectPieChart
+            data={pieData}
+            totalDefects={totalDefectsCount}
+            title={t("tvDefectPareto") || "Defect Type Breakdown"}
+            subtitle={t("pieChartSub") || "Breakdown of recorded defects"}
+            compact
+            className=""
+          />
 
           {/* Sewing Operations Issue Breakdown */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm flex-1 transition-colors">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm flex-1 flex flex-col min-w-0 transition-colors">
             <h3 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-3 flex items-center space-x-2">
               <Scissors className="w-4 h-4 text-blue-500" />
               <span>{t("tvTopOperations") || "Most Defective Sewing Operations"}</span>

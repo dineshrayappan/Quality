@@ -1,156 +1,92 @@
 const BASE_URL = "/api";
 
+/** Build a query string while omitting unset filter values. */
+const toQueryString = (filters = {}) => {
+  const params = new URLSearchParams();
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      params.append(key, value);
+    }
+  });
+  const query = params.toString();
+  return query ? `?${query}` : "";
+};
+
+/** Send an API request and throw a descriptive error on non-2xx responses. */
+const request = async (path, options = {}) => {
+  const res = await fetch(`${BASE_URL}${path}`, options);
+  const contentType = res.headers.get("content-type") || "";
+  const data = contentType.includes("application/json")
+    ? await res.json()
+    : await res.text();
+
+  if (!res.ok) {
+    const message =
+      (typeof data === "object" && (data?.error || data?.message)) ||
+      `Request failed with status ${res.status}`;
+    throw new Error(message);
+  }
+  return data;
+};
+
+const jsonRequest = (path, method, body) =>
+  request(path, {
+    method,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
 export const api = {
   // Lines
-  getLines: async () => {
-    const res = await fetch(`${BASE_URL}/lines`);
-    return res.json();
-  },
-  createLine: async (data) => {
-    const res = await fetch(`${BASE_URL}/lines`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    return res.json();
-  },
-  deleteLine: async (id) => {
-    const res = await fetch(`${BASE_URL}/lines/${id}`, {
-      method: "DELETE",
-    });
-    return res.json();
-  },
+  getLines: () => request("/lines"),
+  createLine: (data) => jsonRequest("/lines", "POST", data),
+  deleteLine: (id) => request(`/lines/${id}`, { method: "DELETE" }),
 
   // Tech Packs
-  getTechPacks: async () => {
-    const res = await fetch(`${BASE_URL}/techpacks`);
-    return res.json();
-  },
-  getTechPack: async (styleNumber) => {
-    const res = await fetch(`${BASE_URL}/techpacks/${styleNumber}`);
-    return res.json();
-  },
-  createTechPack: async (data) => {
-    const res = await fetch(`${BASE_URL}/techpacks`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    return res.json();
-  },
-  updateTechPack: async (id, data) => {
-    const res = await fetch(`${BASE_URL}/techpacks/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    return res.json();
-  },
-  deleteTechPack: async (id) => {
-    const res = await fetch(`${BASE_URL}/techpacks/${id}`, {
-      method: "DELETE",
-    });
-    return res.json();
-  },
-  uploadTechPackImage: async (file) => {
+  getTechPacks: () => request("/techpacks"),
+  getTechPack: (styleNumber) => request(`/techpacks/${styleNumber}`),
+  createTechPack: (data) => jsonRequest("/techpacks", "POST", data),
+  updateTechPack: (id, data) => jsonRequest(`/techpacks/${id}`, "PUT", data),
+  deleteTechPack: (id) => request(`/techpacks/${id}`, { method: "DELETE" }),
+  uploadTechPackImage: (file) => {
     const formData = new FormData();
     formData.append("image", file);
-    const res = await fetch(`${BASE_URL}/techpacks/upload-image`, {
+    return request("/techpacks/upload-image", {
       method: "POST",
       body: formData,
     });
-    return res.json();
   },
 
   // Defects
-  getDefects: async (category = "") => {
-    const url = category && category !== "All" ? `${BASE_URL}/defects?category=${category}` : `${BASE_URL}/defects`;
-    const res = await fetch(url);
-    return res.json();
+  getDefects: (category = "") => {
+    const query = category && category !== "All" ? toQueryString({ category }) : "";
+    return request(`/defects${query}`);
   },
-  addCustomDefect: async (data) => {
-    const res = await fetch(`${BASE_URL}/defects/custom`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    return res.json();
-  },
-  deleteDefect: async (id) => {
-    const res = await fetch(`${BASE_URL}/defects/${id}`, {
-      method: "DELETE",
-    });
-    return res.json();
-  },
+  addCustomDefect: (data) => jsonRequest("/defects/custom", "POST", data),
+  deleteDefect: (id) => request(`/defects/${id}`, { method: "DELETE" }),
 
   // QC Actions
-  logPass: async (data) => {
-    const res = await fetch(`${BASE_URL}/qc/pass`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    return res.json();
+  logPass: (data) => jsonRequest("/qc/pass", "POST", data),
+  logDefect: (data) => jsonRequest("/qc/defect", "POST", data),
+  logReject: (data) => jsonRequest("/qc/reject", "POST", data),
+  getRecentLogs: (filters = {}, styleNumber) => {
+    const resolvedFilters =
+      typeof filters === "string"
+        ? { lineName: filters, styleNumber }
+        : filters;
+    return request(`/qc/recent${toQueryString(resolvedFilters)}`);
   },
-  logDefect: async (data) => {
-    const res = await fetch(`${BASE_URL}/qc/defect`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    return res.json();
-  },
-  logReject: async (data) => {
-    const res = await fetch(`${BASE_URL}/qc/reject`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    return res.json();
-  },
-  getRecentLogs: async (filters = {}) => {
-    let params;
-    if (typeof filters === "string") {
-      params = new URLSearchParams();
-      if (arguments[0]) params.append("lineName", arguments[0]);
-      if (arguments[1]) params.append("styleNumber", arguments[1]);
-    } else {
-      params = new URLSearchParams(filters);
-    }
-    const res = await fetch(`${BASE_URL}/qc/recent?${params.toString()}`);
-    return res.json();
-  },
-  deleteLog: async (id) => {
-    const res = await fetch(`${BASE_URL}/qc/logs/${id}`, {
-      method: "DELETE",
-    });
-    return res.json();
-  },
+  deleteLog: (id) => request(`/qc/logs/${id}`, { method: "DELETE" }),
 
   // Analytics
-  getSummary: async (filters = {}) => {
-    const params = new URLSearchParams(filters);
-    const res = await fetch(`${BASE_URL}/analytics/summary?${params.toString()}`);
-    return res.json();
-  },
-  getDefectPieChart: async (filters = {}) => {
-    const params = new URLSearchParams(filters);
-    const res = await fetch(`${BASE_URL}/analytics/defect-pie?${params.toString()}`);
-    return res.json();
-  },
-  getOperationDefects: async (filters = {}) => {
-    const params = new URLSearchParams(filters);
-    const res = await fetch(`${BASE_URL}/analytics/operations?${params.toString()}`);
-    return res.json();
-  },
-  getHeatmapPoints: async (filters = {}) => {
-    const params = new URLSearchParams(filters);
-    const res = await fetch(`${BASE_URL}/analytics/heatmap?${params.toString()}`);
-    return res.json();
-  },
-  getHourlyTrend: async (filters = {}) => {
-    const params = new URLSearchParams(filters);
-    const res = await fetch(`${BASE_URL}/analytics/hourly?${params.toString()}`);
-    return res.json();
-  },
+  getSummary: (filters = {}) =>
+    request(`/analytics/summary${toQueryString(filters)}`),
+  getDefectPieChart: (filters = {}) =>
+    request(`/analytics/defect-pie${toQueryString(filters)}`),
+  getOperationDefects: (filters = {}) =>
+    request(`/analytics/operations${toQueryString(filters)}`),
+  getHeatmapPoints: (filters = {}) =>
+    request(`/analytics/heatmap${toQueryString(filters)}`),
+  getHourlyTrend: (filters = {}) =>
+    request(`/analytics/hourly${toQueryString(filters)}`),
 };

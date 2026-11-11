@@ -7,7 +7,7 @@ export const Layout = ({ children }) => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-200">
+    <div className="flex h-dvh overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-200">
       {/* Sidebar View */}
       <Sidebar
         isCollapsed={isCollapsed}
@@ -17,7 +17,7 @@ export const Layout = ({ children }) => {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
+      <div className="flex-1 flex flex-col min-w-0 h-dvh overflow-y-auto">
         <Header onOpenMobile={() => setIsMobileOpen(true)} />
         <main className="flex-1 p-3 sm:p-5 lg:p-6 overflow-x-hidden">
           {children}

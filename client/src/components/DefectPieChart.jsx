@@ -30,9 +30,19 @@ const COLOR_PALETTE = [
   "#64748b", // Slate (Others / Custom)
 ];
 
-export const DefectPieChart = ({ data = [], totalDefects = 0, title, subtitle }) => {
+export const DefectPieChart = ({
+  data = [],
+  totalDefects = 0,
+  title,
+  subtitle,
+  compact = false,
+  className = "h-full",
+}) => {
   const { t } = useTranslation();
   const { isDark } = useTheme();
+
+  const resolvedTotal =
+    totalDefects || data.reduce((sum, item) => sum + (Number(item.count) || 0), 0);
 
   const chartData = useMemo(() => {
     if (!data || data.length === 0) {
@@ -96,21 +106,24 @@ export const DefectPieChart = ({ data = [], totalDefects = 0, title, subtitle })
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm flex flex-col h-full transition-colors">
-      
+    <div
+      className={`defect-pie-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl ${
+        compact ? "p-4" : "p-5"
+      } shadow-sm flex flex-col min-w-0 transition-colors ${className}`.trim()}
+    >
       {/* Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
-        <div>
-          <h3 className="font-bold text-base text-slate-900 dark:text-slate-100 flex items-center space-x-2">
-            <PieIcon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-            <span>{title || t("pieChartTitle") || "Defect Pareto Distribution"}</span>
+      <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-200 dark:border-slate-800">
+        <div className="min-w-0">
+          <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-slate-100 flex items-center gap-2">
+            <PieIcon className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0" />
+            <span className="truncate">{title || t("pieChartTitle") || "Defect Pareto Distribution"}</span>
           </h3>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             {subtitle || t("pieChartSub") || "Breakdown of recorded defects"}
           </p>
         </div>
-        <div className="px-3 py-1.5 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-600 dark:text-red-400 text-xs font-bold">
-          {totalDefects} Total Instances
+        <div className="px-3 py-1 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-600 dark:text-red-400 text-xs font-bold shrink-0">
+          {resolvedTotal} Total Instances
         </div>
       </div>
 
@@ -121,22 +134,30 @@ export const DefectPieChart = ({ data = [], totalDefects = 0, title, subtitle })
           <p className="text-xs text-slate-400 dark:text-slate-500">All inspected pieces are 100% OK!</p>
         </div>
       ) : (
-        <div className="flex-1 flex flex-col lg:flex-row items-center gap-6 pt-4">
-          
+        <div className="defect-pie-body flex-1 pt-4">
           {/* Pie Chart Canvas */}
-          <div className="w-full lg:w-1/2 aspect-square max-h-72 relative flex items-center justify-center">
+          <div
+            className={`defect-pie-chart ${compact ? "defect-pie-chart--compact" : ""}`.trim()}
+          >
             <Pie data={chartData} options={chartOptions} />
           </div>
 
           {/* Detailed Defect Percentage Table */}
-          <div className="w-full lg:w-1/2 overflow-y-auto max-h-72 border border-slate-200 dark:border-slate-800/80 rounded-xl bg-slate-50/50 dark:bg-slate-950/40">
+          <div
+            tabIndex={0}
+            role="region"
+            aria-label={title || t("pieChartTitle") || "Defect Pareto Distribution"}
+            className={`defect-pie-table-wrap ${
+              compact ? "max-h-48" : "max-h-72"
+            } border border-slate-200 dark:border-slate-800/80 rounded-xl bg-slate-50/50 dark:bg-slate-950/40`}
+          >
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-100 dark:bg-slate-850 sticky top-0 text-slate-500 dark:text-slate-400 font-semibold border-b border-slate-200 dark:border-slate-800">
+              <thead className="bg-slate-100 dark:bg-slate-850 sticky top-0 z-10 text-slate-500 dark:text-slate-400 font-semibold border-b border-slate-200 dark:border-slate-800">
                 <tr>
-                  <th className="py-2.5 px-3">#</th>
-                  <th className="py-2.5 px-3">{t("defectType") || "Defect"}</th>
-                  <th className="py-2.5 px-3 text-right">{t("occurrences") || "Count"}</th>
-                  <th className="py-2.5 px-3 text-right">{t("percentage") || "%"}</th>
+                  <th className="py-2.5 px-2.5 w-8">#</th>
+                  <th className="py-2.5 px-2.5">{t("defectType") || "Defect"}</th>
+                  <th className="py-2.5 px-2.5 text-right whitespace-nowrap">{t("occurrences") || "Count"}</th>
+                  <th className="py-2.5 px-2.5 text-right whitespace-nowrap">{t("percentage") || "%"}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
@@ -144,24 +165,24 @@ export const DefectPieChart = ({ data = [], totalDefects = 0, title, subtitle })
                   const color = COLOR_PALETTE[index % COLOR_PALETTE.length];
                   return (
                     <tr key={item.name} className="hover:bg-slate-100 dark:hover:bg-slate-800/40 transition-colors">
-                      <td className="py-2 px-3 text-slate-400 font-mono text-[11px]">
+                      <td className="py-2 px-2.5 text-slate-400 font-mono text-[11px]">
                         {index + 1}
                       </td>
-                      <td className="py-2 px-3">
-                        <div className="flex items-center space-x-2">
+                      <td className="py-2 px-2.5 min-w-[110px]">
+                        <div className="flex items-center gap-2 min-w-0">
                           <span
                             className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                             style={{ backgroundColor: color }}
                           />
-                          <span className="font-medium text-slate-800 dark:text-slate-200 truncate max-w-[140px]">
+                          <span className="font-medium text-slate-800 dark:text-slate-200 truncate" title={item.name}>
                             {item.name}
                           </span>
                         </div>
                       </td>
-                      <td className="py-2 px-3 text-right font-semibold text-slate-800 dark:text-slate-200">
+                      <td className="py-2 px-2.5 text-right font-semibold text-slate-800 dark:text-slate-200 whitespace-nowrap">
                         {item.count}
                       </td>
-                      <td className="py-2 px-3 text-right">
+                      <td className="py-2 px-2.5 text-right whitespace-nowrap">
                         <span className="inline-block px-2 py-0.5 rounded font-mono font-bold text-xs bg-slate-100 dark:bg-slate-800 text-blue-600 dark:text-blue-400">
                           {item.percentage}%
                         </span>

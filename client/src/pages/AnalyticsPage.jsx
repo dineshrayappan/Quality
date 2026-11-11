@@ -581,7 +581,7 @@ export const AnalyticsPage = () => {
 
       {/* Heatmap Tab */}
       {activeTab === "heatmap" && (
-        <div className="h-[600px]">
+        <div className="min-h-[600px]">
           <GarmentHeatmapOverlay
             techPack={selectedTechPackObj}
             points={heatmapPoints}
