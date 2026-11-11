@@ -17,7 +17,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const isVercel = Boolean(process.env.VERCEL);
+const isVercel = Boolean(process.env.VERCEL || process.env.VERCEL_ENV);
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/garment_qc_db";
 

@@ -14,7 +14,7 @@ import {
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const isVercel = Boolean(process.env.VERCEL);
+const isVercel = Boolean(process.env.VERCEL || process.env.VERCEL_ENV);
 
 // On Vercel serverless, store uploads in memory as Data URLs because the deployment filesystem is read-only
 let storage;
